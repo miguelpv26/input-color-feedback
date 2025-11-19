@@ -1,0 +1,25 @@
+{
+    "name": "input-color-feedback",
+    "version": "2.0.0",
+    "description": "A tiny CSS utility for beautiful input validation states",
+    "main": "styles.css",
+    "style": "styles.css",
+    "keywords": [
+        "css",
+        "forms",
+        "inputs",
+        "validation",
+        "ui",
+        "ux"
+    ],
+    "author": "Miguel Payá Vañó <miguelpayav@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/miguelpv26/input-color-feedback.git"
+    },
+    "bugs": {
+        "url": "https://github.com/miguelpv26/input-color-feedback/issues"
+    },
+    "homepage": "https://github.com/miguelpv26/input-color-feedback#readme"
+}

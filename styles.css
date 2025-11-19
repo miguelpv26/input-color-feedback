@@ -1,0 +1,44 @@
+:root {
+  --default-color: #0d0d0d;
+  --focus-color: #0080ff;
+  --valid-color: #00d112;
+  --warning-color: #f7b500;
+  --invalid-color: #e60000;
+  --shadow-strength: 0.75;
+}
+
+input, input:focus-visible {
+  outline: none;
+}
+
+input {
+  border: 1px solid var(--default-color);
+  transition: all 0.3s ease-out;
+}
+
+/* Focus + placeholder (typing hasn't started) */
+input:focus:placeholder-shown {
+  border-color: var(--focus-color) !important;
+  box-shadow: 0 2px 10px 0.1px rgba(0, 128, 255, var(--shadow-strength)) !important;
+}
+
+/* Focus but invalid input */
+input:focus:invalid {
+  border-color: var(--warning-color);
+  box-shadow: 0 2px 10px 0.1px rgba(247, 181, 0, var(--shadow-strength));
+}
+
+/* Unfocused invalid */
+input:not(:focus):user-invalid {
+  border-color: var(--invalid-color);
+}
+
+/* Focused valid */
+input:user-valid,
+input:valid {
+  border-color: var(--valid-color) !important;
+}
+input:focus:user-valid,
+input:focus:valid {
+  box-shadow: 0 2px 10px 0.1px rgba(0, 209, 18, var(--shadow-strength)) !important;
+}

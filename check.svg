@@ -1,0 +1,27 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+  role="img"
+  aria-label="Valid input"
+>
+  <!-- Two-tone bold tick: bright fill over a slightly wider darker outline, with
+       rounded caps + joins — same treatment as the invalid cross. -->
+  <path
+    d="M5 12.6 9.8 17.6 20 5.8"
+    fill="none"
+    stroke="#00AC0F"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M5 12.6 9.8 17.6 20 5.8"
+    fill="none"
+    stroke="#00d112"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

@@ -1,0 +1,28 @@
+/* Generic animated validation styling via native pseudo-classes — NOT this
+   library. It mimics the *animation profile* of any nice state feedback (border-
+   colour + glow with a 0.15s transition) so a JS-lib fixture pays the same paint
+   cost this package does. This is what a developer using a JS validator would add
+   on top of it to actually show the states. */
+input {
+  border: 1px solid #939393;
+  outline: none;
+  transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+input:focus:invalid:not(:placeholder-shown) {
+  border-color: #f7b500;
+  box-shadow: 0 2px 10px 0.1px rgba(247, 181, 0, 0.75);
+}
+input:not(:focus):user-invalid {
+  border-color: #e60000;
+}
+input:user-valid,
+input:valid {
+  border-color: #00d112;
+}
+input:focus:user-valid:not(:placeholder-shown),
+input:focus:valid:not(:placeholder-shown) {
+  box-shadow: 0 2px 10px 0.1px rgba(0, 209, 18, 0.75);
+}
+@media (prefers-reduced-motion: reduce) {
+  input { transition: none; }
+}

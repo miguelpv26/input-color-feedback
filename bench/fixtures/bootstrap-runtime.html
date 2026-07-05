@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>bench: Bootstrap validation (CSS)</title>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>body{background:#fff;padding:1rem}.form-control{width:280px;margin:6px 0}</style>
+</head>
+<body>
+  <!-- Bootstrap's CSS-only validation: `.was-validated` activates its
+       :invalid/:valid pseudo-class styling (border colour + background icon,
+       0.15s transition). Zero per-keystroke JS — the fair analog to mine. -->
+  <form id="form" class="was-validated" novalidate></form>
+  <script>
+    const n = +(new URLSearchParams(location.search).get("n") || 20);
+    const f = document.getElementById("form");
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement("input");
+      el.type = "email"; el.required = true; el.placeholder = "you@example.com";
+      el.className = "form-control"; el.id = "f" + i; el.autocomplete = "off";
+      f.appendChild(el);
+    }
+  </script>
+</body>
+</html>

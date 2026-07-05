@@ -1,0 +1,16 @@
+{
+  "name": "input-color-feedback-bench",
+  "private": true,
+  "type": "module",
+  "description": "Reproducible size + runtime + a11y benchmarks. Not published.",
+  "scripts": {
+    "size": "node size.mjs",
+    "bench": "node measure-runtime.mjs",
+    "contrast": "node contrast.mjs",
+    "a11y": "node a11y.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0",
+    "@axe-core/playwright": "^4.10.0"
+  }
+}

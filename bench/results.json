@@ -1,0 +1,198 @@
+{
+  "env": {
+    "RUNS": 25,
+    "N": 20,
+    "THROTTLE": 4
+  },
+  "results": {
+    "input-color-feedback (native)": {
+      "InitScripting": {
+        "median": 3.82,
+        "p25": 3.65,
+        "p75": 4.29,
+        "n": 25
+      },
+      "ScriptDuration": {
+        "median": 0,
+        "p25": 0,
+        "p75": 0,
+        "n": 25
+      },
+      "RecalcStyleDuration": {
+        "median": 160.23,
+        "p25": 152.13,
+        "p75": 169.25,
+        "n": 25
+      },
+      "LayoutDuration": {
+        "median": 19.86,
+        "p25": 19.26,
+        "p75": 20.66,
+        "n": 25
+      },
+      "failures": 0
+    },
+    "input-color-feedback (150 ms anim)": {
+      "InitScripting": {
+        "median": 4.02,
+        "p25": 3.65,
+        "p75": 5.26,
+        "n": 25
+      },
+      "ScriptDuration": {
+        "median": 0,
+        "p25": 0,
+        "p75": 0,
+        "n": 25
+      },
+      "RecalcStyleDuration": {
+        "median": 134.62,
+        "p25": 130.61,
+        "p75": 142.79,
+        "n": 25
+      },
+      "LayoutDuration": {
+        "median": 20.45,
+        "p25": 20.16,
+        "p75": 21.75,
+        "n": 25
+      },
+      "failures": 0
+    },
+    "Bootstrap (JS validation)": {
+      "InitScripting": {
+        "median": 4.07,
+        "p25": 4.04,
+        "p75": 4.66,
+        "n": 25
+      },
+      "ScriptDuration": {
+        "median": 8.88,
+        "p25": 8.38,
+        "p75": 9.63,
+        "n": 25
+      },
+      "RecalcStyleDuration": {
+        "median": 175.37,
+        "p25": 165.14,
+        "p75": 194.35,
+        "n": 25
+      },
+      "LayoutDuration": {
+        "median": 27.69,
+        "p25": 26.21,
+        "p75": 29.58,
+        "n": 25
+      },
+      "failures": 0
+    },
+    "Bootstrap (CSS was-validated)": {
+      "InitScripting": {
+        "median": 4.24,
+        "p25": 4.07,
+        "p75": 4.46,
+        "n": 25
+      },
+      "ScriptDuration": {
+        "median": 0,
+        "p25": 0,
+        "p75": 0,
+        "n": 25
+      },
+      "RecalcStyleDuration": {
+        "median": 138.66,
+        "p25": 131.89,
+        "p75": 141.84,
+        "n": 25
+      },
+      "LayoutDuration": {
+        "median": 21.05,
+        "p25": 18.91,
+        "p75": 22.24,
+        "n": 25
+      },
+      "failures": 0
+    },
+    "native baseline": {
+      "InitScripting": {
+        "median": 3.94,
+        "p25": 3.67,
+        "p75": 4.26,
+        "n": 25
+      },
+      "ScriptDuration": {
+        "median": 0,
+        "p25": 0,
+        "p75": 0,
+        "n": 25
+      },
+      "RecalcStyleDuration": {
+        "median": 16.73,
+        "p25": 16.11,
+        "p75": 18.15,
+        "n": 25
+      },
+      "LayoutDuration": {
+        "median": 22.11,
+        "p25": 20.71,
+        "p75": 23.22,
+        "n": 25
+      },
+      "failures": 0
+    },
+    "Pristine": {
+      "InitScripting": {
+        "median": 10.16,
+        "p25": 8.68,
+        "p75": 12.17,
+        "n": 25
+      },
+      "ScriptDuration": {
+        "median": 14.71,
+        "p25": 14.3,
+        "p75": 15.48,
+        "n": 25
+      },
+      "RecalcStyleDuration": {
+        "median": 16.89,
+        "p25": 15.89,
+        "p75": 17.7,
+        "n": 25
+      },
+      "LayoutDuration": {
+        "median": 21.55,
+        "p25": 20.93,
+        "p75": 22.98,
+        "n": 25
+      },
+      "failures": 0
+    },
+    "just-validate": {
+      "InitScripting": {
+        "median": 10.65,
+        "p25": 9.54,
+        "p75": 14.02,
+        "n": 25
+      },
+      "ScriptDuration": {
+        "median": 15.11,
+        "p25": 14.22,
+        "p75": 16.83,
+        "n": 25
+      },
+      "RecalcStyleDuration": {
+        "median": 17.61,
+        "p25": 15.96,
+        "p75": 19.32,
+        "n": 25
+      },
+      "LayoutDuration": {
+        "median": 22.32,
+        "p25": 20.62,
+        "p75": 23.76,
+        "n": 25
+      },
+      "failures": 0
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>bench: Bootstrap validation (JS classes)</title>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>body{background:#fff;padding:1rem}.form-control{width:280px;margin:6px 0}</style>
+</head>
+<body>
+  <!-- Bootstrap's realistic LIVE path: a JS input handler runs the browser's
+       native checkValidity() and toggles .is-valid / .is-invalid per field. The
+       browser still does the constraint check; JS drives the visual state — which
+       is the per-keystroke cost this measures. One delegated listener (favourable
+       to Bootstrap vs one-per-field). -->
+  <form id="form" novalidate></form>
+  <script>
+    const n = +(new URLSearchParams(location.search).get("n") || 20);
+    const f = document.getElementById("form");
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement("input");
+      el.type = "email"; el.required = true; el.placeholder = "you@example.com";
+      el.className = "form-control"; el.id = "f" + i; el.autocomplete = "off";
+      f.appendChild(el);
+    }
+    f.addEventListener("input", (e) => {
+      const el = e.target;
+      const ok = el.checkValidity();
+      el.classList.toggle("is-valid", ok);
+      el.classList.toggle("is-invalid", !ok);
+    });
+  </script>
+</body>
+</html>

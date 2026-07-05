@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Local tooling / assistant memory
+.claude/
+
+# Archives / scratch
+*.zip
+
+# Private roadmap — the public roadmap lives in README.md.
+# Delete this line if you decide to publish it.
+NEXT-STEPS.md

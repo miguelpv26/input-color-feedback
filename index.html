@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>input-color-feedback — demo</title>
+
+  <!-- Favicons (RealFaviconGenerator set). Relative paths so they resolve on the
+       GitHub Pages project subpath, not just at the domain root. -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#f7b500">
+
+  <!-- The whole library is the one stylesheet below; usage notes are shown on the page. -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ---- Demo page only. None of this is needed to use the library. ---- */
+    body   { margin: 0; font-family: system-ui, sans-serif; }
+    .stage { min-height: 100dvh; box-sizing: border-box;
+             max-width: 100dvw; margin: auto; padding: 2rem; }
+    button { margin: 1.5rem 0; padding: .5rem 1rem; cursor: pointer; }
+    .brand { display: flex; margin: 0; align-items: center; gap: .6rem; }
+    .logo  { width: 1.5em; height: 1.5em; border-radius: 50%; flex: none; }
+    label  { display: block; margin: 1.25rem 0 .4rem; }
+    input  { width: 100%; box-sizing: border-box;
+             padding: .55rem .7rem; border-radius: 6px; font-size: 1rem; }
+    .legend { margin-top: 1.5rem; font-size: .85rem; line-height: 1.7; }
+    /* State words tinted with the library's own tokens; green + amber follow the
+       stage's color-scheme via the light-dark() baked into those variables. */
+    .s-grey  { color: var(--default-color); }
+    .s-blue  { color: var(--focus-color); }
+    .s-amber { color: var(--warning-color); }
+    .s-green { color: var(--valid-color); }
+    .s-red   { color: var(--invalid-color); }
+    /* Inline state icons — same SVGs the library paints, at text size. */
+    .ico { width: 1.15em; height: 1.15em; vertical-align: -0.22em; }
+    .notes  { margin-top: 2rem; font-size: .85rem; line-height: 1.6; }
+    .notes code { padding: 0 .3em; border-radius: 3px;
+                  background: color-mix(in srgb, currentColor 12%, transparent); }
+    .warn   { margin-top: 1rem; padding: .75rem 1rem; border-radius: 6px;
+              border-left: 3px solid var(--warning-color); }
+    .links  { margin-top: 1.75rem; font-size: .85rem; }
+    .links a { color: var(--focus-color); font-weight: 600; }
+    .links a:hover { text-decoration: underline; }
+    .links .by { font-weight: 400; }
+
+    /* Side-by-side comparison: the "mine" pane is native (styled by the library);
+       Bootstrap sits in an isolated iframe so the two don't fight over inputs.
+       Both follow the theme toggle above. */
+    .compare h2 { margin: 0 0 .25rem; }
+    /* Muted via color (not opacity) so the coloured <b> spans below keep their
+       full-strength hue while the running text dims. */
+    .compare > p { margin: 0; font-size: .9rem;
+                   color: color-mix(in srgb, currentColor 75%, transparent); }
+    .compare > p + p { margin-top: .7rem; }
+    .compare > p code { padding: 0 .3em; border-radius: 3px; font-size: .92em;
+                        background: color-mix(in srgb, currentColor 12%, transparent); }
+    .cols     { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.1rem; }
+    @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
+    .cols figure { margin: 0; border-radius: 8px; overflow: hidden;
+                   border: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+    .cols figcaption { padding: .55rem .8rem; font-weight: 600; font-size: .9rem;
+                       background: color-mix(in srgb, currentColor 8%, transparent); }
+    .cols figcaption span { font-weight: 400; opacity: .65; font-size: .85em; }
+    .cols iframe { width: 100%; height: 230px; border: 0; display: block; background: #121212; }
+    .stage[data-bg="light"] .cols iframe { background: #ffffff; }
+    .pane     { padding: 1rem 1rem 1.1rem; min-height: 230px; box-sizing: border-box; }
+    .pane label { margin: .75rem 0 .35rem; font-size: .9rem; }
+    .pane label:first-child { margin-top: 0; }
+    .cap { margin: 0; padding: .6rem .8rem; font-size: .8rem; line-height: 1.55;
+           border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+
+    /* Roadmap — same muted-prose treatment as the comparison copy. */
+    .roadmap { margin-top: 2.75rem; }
+    .roadmap h2 { margin: 0 0 .6rem; }
+    .roadmap > p { margin: 0; font-size: .9rem;
+                   color: color-mix(in srgb, currentColor 75%, transparent); }
+    .roadmap > p + p { margin-top: .8rem; }
+    .roadmap code { padding: 0 .3em; border-radius: 3px; font-size: .92em;
+                    background: color-mix(in srgb, currentColor 12%, transparent); }
+    .roadmap .tag { font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+                    text-transform: uppercase; }
+
+    /*
+      The library's palette follows the page's `color-scheme` (via light-dark()),
+      so this toggle just flips color-scheme on the stage and the inputs adapt —
+      no colours to re-declare here.
+    */
+    .stage[data-bg="dark"]  { color-scheme: dark;  background: #121212; color: #e8e8e8; }
+    .stage[data-bg="dark"]  input { background-color: #212529; }
+    .stage[data-bg="light"] { color-scheme: light; background: #ffffff; color: #141414; }
+  </style>
+</head>
+
+<body>
+  <div class="stage" data-bg="dark">
+    <h1 class="brand"><img class="logo" src="favicon.svg" alt="input-color-feedback logo" width="40" height="40">input-color-feedback</h1>
+    <button onclick="toggleTheme()">Toggle light / dark background</button>
+
+    <section class="compare">
+      <div class="cols">
+        <figure>
+          <figcaption>This library <span>· pure HTML + CSS, no JS</span></figcaption>
+          <div class="pane">
+            <label for="c-email">Email</label>
+            <input id="c-email" type="email" placeholder="you@example.com" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+" autocomplete="off">
+            <label for="c-pw">Password (min 6)</label>
+            <input id="c-pw" type="password" placeholder="Enter password" minlength="6" required autocomplete="off">
+          </div>
+          <p class="legend cap">
+            Empty → <b class="s-grey">grey</b> · Focus empty → <b class="s-blue">blue</b> · type something invalid → <b class="s-amber">amber / orange</b> + <img class="ico" src="warning.svg" alt="warning"> ·
+            valid → <b class="s-green">green</b> + <img class="ico" src="check.svg" alt="valid"> · leave an invalid field → <b class="s-red">red</b> + <img class="ico" src="error.svg" alt="invalid">.
+          </p>
+        </figure>
+        <figure>
+          <figcaption>Bootstrap <span>· needs JavaScript</span></figcaption>
+          <iframe id="bs-frame" src="compare-bootstrap.html#dark" title="Bootstrap validation demo" loading="lazy"></iframe>
+          <p class="legend cap">
+            Empty → <b style="color:#8a9199">grey</b> · Focus empty → <b style="color:#0d6efd">blue</b> glow · type something invalid → <b style="color:#dc3545">red</b> + <b style="color:#dc3545">!</b> ·
+            valid → <b style="color:#198754">green</b> + <b style="color:#198754">✓</b> · fix an invalid field → <b style="color:#198754">green</b>. No amber tier.
+          </p>
+        </figure>
+      </div>
+      <h2 style="margin-top:1.75rem">So... what's the difference?</h2>
+      <p>Honestly, <b>both panes do essentially the same job</b> — they both lean on the browser's own validation for the same states (neutral, focus, and valid/invalid each with and without the focus glow). Two cosmetic differences: Bootstrap keeps its <b>borders and focus glow</b> at a higher non-text contrast (measured <b>4.5:1</b>), whereas this library trades down toward the <b>3:1</b> WCAG minimum for more vivid colours, and it adds an <b class="s-amber">amber / orange</b> “still-typing” warning tier before the <b class="s-red">red</b> error.</p>
+      <p>The difference that matters is under the hood. This library ships <b>zero JavaScript</b> — Bootstrap needs a script to drive the live states — and its whole stylesheet is <b style="text-decoration: underline wavy">≈97% smaller</b> than Bootstrap's CSS. Leaning on native CSS pseudo-classes is the whole trick, and also its one limit: it's why an input must carry a <b>placeholder</b> and a constraint to react. That's what keeps the interaction cheap: <b>no runtime JS at all</b> (Bootstrap spends ≈9 ms scripting per form) and about <b>half the combined script-and-layout work</b>, measured in <code>bench/results.json</code>. Both inline their icons as data-URIs, so neither makes a separate icon request.</p>
+    </section>
+
+    <section class="roadmap">
+      <h2>🛣️ Roadmap — next release (2.3.0 / 3.0.0)</h2>
+
+      <p><b class="s-green tag">Primary</b> — <b>drop the <code>placeholder</code> + <code>required</code> requirement.</b> Today all six states are pulled apart with native pseudo-classes alone, which forces two things onto your markup: a <b>placeholder</b> (<code>:placeholder-shown</code> is how we spot an untouched, empty field — it drives the blue “focused &amp; empty” state and guards a fresh field from flashing valid/invalid) and a <b>constraint</b> like <code>required</code> (an input with no constraint is always <code>:valid</code>, so it would sit green from first paint). Both fall out of styling a bare <code>&lt;input&gt;</code> with CSS only. The goal is the same six states with <b>neither</b> attribute — shipping as <b>2.3.0</b> if it stays a drop-in CSS change, or <b>3.0.0</b> if it needs a small opt-in API (a wrapper or a <code>data-</code> attribute), which would be a breaking change.</p>
+
+      <p><b class="s-blue tag">Exploring</b> — <b>reuse the state colour for helper / error text.</b> Expose the state colours as text tokens so an error message can echo its input's border. The catch: WCAG asks more contrast of text (<b>4.5:1</b>, 1.4.3) than of borders (<b>3:1</b>, 1.4.11), and the border-tuned light-mode green <code>#00AC0F</code> and orange <code>#EA7200</code> sit right around 3:1 — so they <b>won't pass as normal-size text</b>. This most likely needs a <i>separate</i>, text-tuned palette rather than reusing the border colour directly, which is why it's still exploratory, not committed to a version.</p>
+    </section>
+
+    <footer class="notes">
+      <p><strong>Usage —</strong> link <code>styles.css</code>; no JS. Feedback
+      appears only when an input has a <strong>placeholder</strong> plus a
+      constraint (<code>required</code>, <code>type</code>,
+      <code>minlength</code>, <code>pattern</code>…). The palette follows the
+      page's <code>color-scheme</code> on its own.</p>
+
+      <p class="warn"><img class="ico" src="warning.svg" alt=""> <strong>Accessibility —</strong> colour alone isn't a
+      sufficient cue (WCAG&nbsp;1.4.1), so states also carry icon cues.
+      On real forms, still pair them with visible error text
+      (e.g. via <code>aria-describedby</code>) so screen-reader users get the
+      state too.</p>
+
+      <p class="links">
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/miguelpv26/input-color-feedback">Click to view on GitHub</a>
+        <span class="by">· by <a target="_blank" rel="noopener" href="https://miguelpv.dev/en/">miguelpv.dev</a></span>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // One toggle themes the whole page. The native panes follow the stage's
+    // color-scheme via light-dark(); the Bootstrap iframe is told over postMessage
+    // so it can flip its own data-bs-theme.
+    function setTheme(mode) {
+      document.querySelector('.stage').dataset.bg = mode;
+      const f = document.getElementById('bs-frame');
+      if (f && f.contentWindow) f.contentWindow.postMessage({ theme: mode }, '*');
+    }
+    function toggleTheme() {
+      const cur = document.querySelector('.stage').dataset.bg;
+      setTheme(cur === 'dark' ? 'light' : 'dark');
+    }
+    // Sync the Bootstrap pane once it has loaded (covers the initial paint).
+    document.getElementById('bs-frame').addEventListener('load', function () {
+      this.contentWindow.postMessage({ theme: document.querySelector('.stage').dataset.bg }, '*');
+    });
+  </script>
+</body>
+</html>

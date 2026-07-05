@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>bench: just-validate + equivalent CSS</title>
+  <link rel="stylesheet" href="equiv.css">
+  <style>body{color-scheme:dark;background:#121212;margin:0;padding:1rem}
+    input{display:block;width:280px;margin:6px 0;padding:.5rem;box-sizing:border-box}</style>
+  <!-- real library, loaded from CDN (no bundling) -->
+  <script src="https://unpkg.com/just-validate@4/dist/just-validate.production.min.js"></script>
+</head>
+<body>
+  <!-- Same JS validator as just-validate.html, but WITH generic animated state
+       styling (equiv.css). Shows the JS lib paying the same paint cost this
+       package does, on top of its scripting. -->
+  <form id="form" novalidate></form>
+  <script>
+    const n = +(new URLSearchParams(location.search).get("n") || 20);
+    const f = document.getElementById("form");
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement("input");
+      el.type = "email"; el.required = true; el.placeholder = "you@example.com";
+      el.id = "f" + i; el.autocomplete = "off";
+      f.appendChild(el);
+    }
+    const v = new JustValidate("#form");
+    for (let i = 0; i < n; i++) {
+      v.addField("#f" + i, [{ rule: "required" }, { rule: "email" }]);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>bench: input-color-feedback</title>
+  <link rel="stylesheet" href="../../styles.css">
+  <style>body{color-scheme:dark;background:#121212;margin:0;padding:1rem}
+    input{display:block;width:280px;margin:6px 0;padding:.5rem;box-sizing:border-box}</style>
+</head>
+<body>
+  <!-- Zero JS: the library reacts to type=email + required + placeholder purely in CSS. -->
+  <form id="form" novalidate></form>
+  <script>
+    const n = +(new URLSearchParams(location.search).get("n") || 20);
+    const f = document.getElementById("form");
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement("input");
+      el.type = "email"; el.required = true; el.placeholder = "you@example.com";
+      el.id = "f" + i; el.autocomplete = "off";
+      f.appendChild(el);
+    }
+  </script>
+</body>
+</html>

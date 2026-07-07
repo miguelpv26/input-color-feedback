@@ -4,7 +4,7 @@ A **tiny, dependency-free CSS utility** that gives form inputs live **color, glo
 
 Perfect for **forms and UI/UX polish**, or just making your inputs **feel alive**.
 
-**🔗 [Live demo →](https://miguelpv26.github.io/input-color-feedback/)** — try all six states, in light and dark.
+**🔗 [Live demo →](https://inputcolorfeedback.dev/)** — try all six states, in light and dark.
 
 ---
 

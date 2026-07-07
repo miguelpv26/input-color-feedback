@@ -1,0 +1,92 @@
+/* =====================================================================
+   Demo page chrome only. NONE of this is needed to use the library —
+   the library is styles.css alone. This file is split out from the page
+   so index.html can run under a strict Content-Security-Policy
+   (style-src 'self'; no inline styles).
+   ===================================================================== */
+
+body   { margin: 0; font-family: system-ui, sans-serif; }
+.stage { min-height: 100dvh; box-sizing: border-box;
+         max-width: 100dvw; margin: auto; padding: 2rem; }
+button { margin: 1.5rem 0; padding: .5rem 1rem; cursor: pointer; }
+.brand { display: flex; margin: 0; align-items: center; gap: .6rem; }
+.logo  { width: 1.5em; height: 1.5em; border-radius: 50%; flex: none; }
+label  { display: block; margin: 1.25rem 0 .4rem; }
+input  { width: 100%; box-sizing: border-box;
+         padding: .55rem .7rem; border-radius: 6px; font-size: 1rem; }
+.legend { margin-top: 1.5rem; font-size: .85rem; line-height: 1.7; }
+/* State words tinted with the library's own tokens; green + amber follow the
+   stage's color-scheme via the light-dark() baked into those variables. */
+.s-grey  { color: var(--default-color); }
+.s-blue  { color: var(--focus-color); }
+.s-amber { color: var(--warning-color); }
+.s-green { color: var(--valid-color); }
+.s-red   { color: var(--invalid-color); }
+/* Inline state icons — same SVGs the library paints, at text size. */
+.ico { width: 1.15em; height: 1.15em; vertical-align: -0.22em; }
+.notes  { margin-top: 2rem; font-size: .85rem; line-height: 1.6; }
+.notes code { padding: 0 .3em; border-radius: 3px;
+              background: color-mix(in srgb, currentColor 12%, transparent); }
+.warn   { margin-top: 1rem; padding: .75rem 1rem; border-radius: 6px;
+          border-left: 3px solid var(--warning-color); }
+.links  { margin-top: 1.75rem; font-size: .85rem; }
+.links a { color: var(--focus-color); font-weight: 600; }
+.links a:hover { text-decoration: underline; }
+.links .by { font-weight: 400; }
+
+/* Side-by-side comparison: the "mine" pane is native (styled by the library);
+   Bootstrap sits in an isolated iframe so the two don't fight over inputs.
+   Both follow the theme toggle above. */
+.compare h2 { margin: 0 0 .25rem; }
+/* Muted via color (not opacity) so the coloured <b> spans below keep their
+   full-strength hue while the running text dims. */
+.compare > p { margin: 0; font-size: .9rem;
+               color: color-mix(in srgb, currentColor 75%, transparent); }
+.compare > p + p { margin-top: .7rem; }
+.compare > p code { padding: 0 .3em; border-radius: 3px; font-size: .92em;
+                    background: color-mix(in srgb, currentColor 12%, transparent); }
+.cols     { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.1rem; }
+@media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
+.cols figure { margin: 0; border-radius: 8px; overflow: hidden;
+               border: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
+.cols figcaption { padding: .55rem .8rem; font-weight: 600; font-size: .9rem;
+                   background: color-mix(in srgb, currentColor 8%, transparent); }
+.cols figcaption span { font-weight: 400; opacity: .65; font-size: .85em; }
+.cols iframe { width: 100%; height: 230px; border: 0; display: block; background: #121212; }
+.stage[data-bg="light"] .cols iframe { background: #ffffff; }
+.pane     { padding: 1rem 1rem 1.1rem; min-height: 230px; box-sizing: border-box; }
+.pane label { margin: .75rem 0 .35rem; font-size: .9rem; }
+.pane label:first-child { margin-top: 0; }
+.cap { margin: 0; padding: .6rem .8rem; font-size: .8rem; line-height: 1.55;
+       border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
+
+/* Roadmap — same muted-prose treatment as the comparison copy. */
+.roadmap { margin-top: 2.75rem; }
+.roadmap h2 { margin: 0 0 .6rem; }
+.roadmap > p { margin: 0; font-size: .9rem;
+               color: color-mix(in srgb, currentColor 75%, transparent); }
+.roadmap > p + p { margin-top: .8rem; }
+.roadmap code { padding: 0 .3em; border-radius: 3px; font-size: .92em;
+                background: color-mix(in srgb, currentColor 12%, transparent); }
+.roadmap .tag { font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+                text-transform: uppercase; }
+
+/*
+  The library's palette follows the page's `color-scheme` (via light-dark()),
+  so this toggle just flips color-scheme on the stage and the inputs adapt —
+  no colours to re-declare here.
+*/
+.stage[data-bg="dark"]  { color-scheme: dark;  background: #121212; color: #e8e8e8; }
+.stage[data-bg="dark"]  input { background-color: #212529; }
+.stage[data-bg="light"] { color-scheme: light; background: #ffffff; color: #141414; }
+
+/* Small helpers that used to be inline style="" attributes — moved here so the
+   page carries no inline styles and can enforce style-src 'self' (no
+   'unsafe-inline'). The .bs-* swatches are Bootstrap's own literal colours,
+   used to describe its pane in the legend. */
+.compare__q { margin-top: 1.75rem; }
+.wavy       { text-decoration: underline wavy; }
+.bs-grey    { color: #8a9199; }
+.bs-blue    { color: #0d6efd; }
+.bs-red     { color: #dc3545; }
+.bs-green   { color: #198754; }

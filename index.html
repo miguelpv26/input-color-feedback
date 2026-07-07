@@ -3,10 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>input-color-feedback — demo</title>
+  <meta name="color-scheme" content="dark light">
 
-  <!-- Favicons (RealFaviconGenerator set). Relative paths so they resolve on the
-       GitHub Pages project subpath, not just at the domain root. -->
+  <!-- Content Security Policy (portable fallback; _headers sets the
+       authoritative HTTP-level CSP where the host supports it). The page
+       ships zero inline script/style, so no 'unsafe-inline' is needed. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; frame-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+
+  <title>input-color-feedback — zero-JS CSS validation feedback for form inputs</title>
+
+  <!-- Favicons (RealFaviconGenerator set). Relative paths so they resolve on
+       both the domain root and the GitHub Pages project subpath. -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
   <link rel="shortcut icon" href="favicon.ico">
@@ -14,92 +22,93 @@
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#f7b500">
 
+  <!-- SEO -->
+  <meta name="description" content="A tiny, dependency-free CSS library that gives form inputs live colour and icon feedback — neutral, focus, valid and invalid states — with zero JavaScript. MIT-licensed and on npm. Try the live demo.">
+  <meta name="keywords" content="css input validation, form validation css, input feedback, css only validation, zero javascript form, accessible form validation, css library, npm, input-color-feedback, Miguel Payá Vañó">
+  <meta name="author" content="Miguel Payá Vañó">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://inputcolorfeedback.dev/">
+
+  <!-- Open Graph (Facebook, LinkedIn, Slack, Discord) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="input-color-feedback">
+  <meta property="og:title" content="input-color-feedback — zero-JS CSS validation feedback for form inputs">
+  <meta property="og:description" content="A tiny, dependency-free CSS library that gives form inputs live colour and icon feedback for focus, valid and invalid states — with zero JavaScript. MIT-licensed, on npm.">
+  <meta property="og:url" content="https://inputcolorfeedback.dev/">
+  <meta property="og:image" content="https://inputcolorfeedback.dev/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="input-color-feedback — pure-CSS input validation states, no JavaScript">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="input-color-feedback — zero-JS CSS validation feedback for form inputs">
+  <meta name="twitter:description" content="A tiny, dependency-free CSS library that gives form inputs live colour and icon feedback — with zero JavaScript. MIT-licensed, on npm.">
+  <meta name="twitter:image" content="https://inputcolorfeedback.dev/og-image.png">
+  <meta name="twitter:image:alt" content="input-color-feedback — pure-CSS input validation states, no JavaScript">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://inputcolorfeedback.dev/#website",
+        "url": "https://inputcolorfeedback.dev/",
+        "name": "input-color-feedback",
+        "description": "A tiny, dependency-free CSS library that gives form inputs live colour and icon feedback with zero JavaScript.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://miguelpv.dev/#person" }
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": "https://inputcolorfeedback.dev/#software",
+        "name": "input-color-feedback",
+        "description": "A tiny, dependency-free CSS utility that gives form inputs live colour and glow feedback plus accessible icon cues for focus, valid and invalid states. Pure CSS, no JavaScript.",
+        "url": "https://inputcolorfeedback.dev/",
+        "codeRepository": "https://github.com/miguelpv26/input-color-feedback",
+        "programmingLanguage": "CSS",
+        "runtimePlatform": "Web",
+        "license": "https://opensource.org/licenses/MIT",
+        "datePublished": "2025",
+        "keywords": ["css", "forms", "inputs", "validation", "ui", "ux", "accessibility", "npm"],
+        "author": { "@id": "https://miguelpv.dev/#person" },
+        "sameAs": [
+          "https://www.npmjs.com/package/input-color-feedback",
+          "https://github.com/miguelpv26/input-color-feedback"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://miguelpv.dev/#person",
+        "name": "Miguel Payá Vañó",
+        "url": "https://miguelpv.dev/",
+        "jobTitle": "Full-Stack Developer",
+        "sameAs": [
+          "https://github.com/miguelpv26",
+          "https://linkedin.com/in/miguel-pay%C3%A1-va%C3%B1%C3%B3",
+          "https://www.npmjs.com/~miguelpv"
+        ]
+      }
+    ]
+  }
+  </script>
+
   <!-- The whole library is the one stylesheet below; usage notes are shown on the page. -->
   <link rel="stylesheet" href="styles.css">
+  <!-- Demo-page chrome only (none of it is needed to use the library). -->
+  <link rel="stylesheet" href="demo.css">
 
-  <style>
-    /* ---- Demo page only. None of this is needed to use the library. ---- */
-    body   { margin: 0; font-family: system-ui, sans-serif; }
-    .stage { min-height: 100dvh; box-sizing: border-box;
-             max-width: 100dvw; margin: auto; padding: 2rem; }
-    button { margin: 1.5rem 0; padding: .5rem 1rem; cursor: pointer; }
-    .brand { display: flex; margin: 0; align-items: center; gap: .6rem; }
-    .logo  { width: 1.5em; height: 1.5em; border-radius: 50%; flex: none; }
-    label  { display: block; margin: 1.25rem 0 .4rem; }
-    input  { width: 100%; box-sizing: border-box;
-             padding: .55rem .7rem; border-radius: 6px; font-size: 1rem; }
-    .legend { margin-top: 1.5rem; font-size: .85rem; line-height: 1.7; }
-    /* State words tinted with the library's own tokens; green + amber follow the
-       stage's color-scheme via the light-dark() baked into those variables. */
-    .s-grey  { color: var(--default-color); }
-    .s-blue  { color: var(--focus-color); }
-    .s-amber { color: var(--warning-color); }
-    .s-green { color: var(--valid-color); }
-    .s-red   { color: var(--invalid-color); }
-    /* Inline state icons — same SVGs the library paints, at text size. */
-    .ico { width: 1.15em; height: 1.15em; vertical-align: -0.22em; }
-    .notes  { margin-top: 2rem; font-size: .85rem; line-height: 1.6; }
-    .notes code { padding: 0 .3em; border-radius: 3px;
-                  background: color-mix(in srgb, currentColor 12%, transparent); }
-    .warn   { margin-top: 1rem; padding: .75rem 1rem; border-radius: 6px;
-              border-left: 3px solid var(--warning-color); }
-    .links  { margin-top: 1.75rem; font-size: .85rem; }
-    .links a { color: var(--focus-color); font-weight: 600; }
-    .links a:hover { text-decoration: underline; }
-    .links .by { font-weight: 400; }
-
-    /* Side-by-side comparison: the "mine" pane is native (styled by the library);
-       Bootstrap sits in an isolated iframe so the two don't fight over inputs.
-       Both follow the theme toggle above. */
-    .compare h2 { margin: 0 0 .25rem; }
-    /* Muted via color (not opacity) so the coloured <b> spans below keep their
-       full-strength hue while the running text dims. */
-    .compare > p { margin: 0; font-size: .9rem;
-                   color: color-mix(in srgb, currentColor 75%, transparent); }
-    .compare > p + p { margin-top: .7rem; }
-    .compare > p code { padding: 0 .3em; border-radius: 3px; font-size: .92em;
-                        background: color-mix(in srgb, currentColor 12%, transparent); }
-    .cols     { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.1rem; }
-    @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
-    .cols figure { margin: 0; border-radius: 8px; overflow: hidden;
-                   border: 1px solid color-mix(in srgb, currentColor 18%, transparent); }
-    .cols figcaption { padding: .55rem .8rem; font-weight: 600; font-size: .9rem;
-                       background: color-mix(in srgb, currentColor 8%, transparent); }
-    .cols figcaption span { font-weight: 400; opacity: .65; font-size: .85em; }
-    .cols iframe { width: 100%; height: 230px; border: 0; display: block; background: #121212; }
-    .stage[data-bg="light"] .cols iframe { background: #ffffff; }
-    .pane     { padding: 1rem 1rem 1.1rem; min-height: 230px; box-sizing: border-box; }
-    .pane label { margin: .75rem 0 .35rem; font-size: .9rem; }
-    .pane label:first-child { margin-top: 0; }
-    .cap { margin: 0; padding: .6rem .8rem; font-size: .8rem; line-height: 1.55;
-           border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
-
-    /* Roadmap — same muted-prose treatment as the comparison copy. */
-    .roadmap { margin-top: 2.75rem; }
-    .roadmap h2 { margin: 0 0 .6rem; }
-    .roadmap > p { margin: 0; font-size: .9rem;
-                   color: color-mix(in srgb, currentColor 75%, transparent); }
-    .roadmap > p + p { margin-top: .8rem; }
-    .roadmap code { padding: 0 .3em; border-radius: 3px; font-size: .92em;
-                    background: color-mix(in srgb, currentColor 12%, transparent); }
-    .roadmap .tag { font-size: .72rem; font-weight: 700; letter-spacing: .04em;
-                    text-transform: uppercase; }
-
-    /*
-      The library's palette follows the page's `color-scheme` (via light-dark()),
-      so this toggle just flips color-scheme on the stage and the inputs adapt —
-      no colours to re-declare here.
-    */
-    .stage[data-bg="dark"]  { color-scheme: dark;  background: #121212; color: #e8e8e8; }
-    .stage[data-bg="dark"]  input { background-color: #212529; }
-    .stage[data-bg="light"] { color-scheme: light; background: #ffffff; color: #141414; }
-  </style>
+  <!-- Demo behaviour only (the library itself is zero-JS). -->
+  <script src="app.js" defer></script>
 </head>
 
 <body>
   <div class="stage" data-bg="dark">
     <h1 class="brand"><img class="logo" src="favicon.svg" alt="input-color-feedback logo" width="40" height="40">input-color-feedback</h1>
-    <button onclick="toggleTheme()">Toggle light / dark background</button>
+    <button id="theme-toggle" type="button">Toggle light / dark background</button>
 
     <section class="compare">
       <div class="cols">
@@ -118,16 +127,17 @@
         </figure>
         <figure>
           <figcaption>Bootstrap <span>· needs JavaScript</span></figcaption>
-          <iframe id="bs-frame" src="compare-bootstrap.html#dark" title="Bootstrap validation demo" loading="lazy"></iframe>
+          <iframe id="bs-frame" src="compare-bootstrap.html#dark" title="Bootstrap validation demo"
+                  sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer" loading="lazy"></iframe>
           <p class="legend cap">
-            Empty → <b style="color:#8a9199">grey</b> · Focus empty → <b style="color:#0d6efd">blue</b> glow · type something invalid → <b style="color:#dc3545">red</b> + <b style="color:#dc3545">!</b> ·
-            valid → <b style="color:#198754">green</b> + <b style="color:#198754">✓</b> · fix an invalid field → <b style="color:#198754">green</b>. No amber tier.
+            Empty → <b class="bs-grey">grey</b> · Focus empty → <b class="bs-blue">blue</b> glow · type something invalid → <b class="bs-red">red</b> + <b class="bs-red">!</b> ·
+            valid → <b class="bs-green">green</b> + <b class="bs-green">✓</b> · fix an invalid field → <b class="bs-green">green</b>. No amber tier.
           </p>
         </figure>
       </div>
-      <h2 style="margin-top:1.75rem">So... what's the difference?</h2>
+      <h2 class="compare__q">So... what's the difference?</h2>
       <p>Honestly, <b>both panes do essentially the same job</b> — they both lean on the browser's own validation for the same states (neutral, focus, and valid/invalid each with and without the focus glow). Two cosmetic differences: Bootstrap keeps its <b>borders and focus glow</b> at a higher non-text contrast (measured <b>4.5:1</b>), whereas this library trades down toward the <b>3:1</b> WCAG minimum for more vivid colours, and it adds an <b class="s-amber">amber / orange</b> “still-typing” warning tier before the <b class="s-red">red</b> error.</p>
-      <p>The difference that matters is under the hood. This library ships <b>zero JavaScript</b> — Bootstrap needs a script to drive the live states — and its whole stylesheet is <b style="text-decoration: underline wavy">≈97% smaller</b> than Bootstrap's CSS. Leaning on native CSS pseudo-classes is the whole trick, and also its one limit: it's why an input must carry a <b>placeholder</b> and a constraint to react. That's what keeps the interaction cheap: <b>no runtime JS at all</b> (Bootstrap spends ≈9 ms scripting per form) and about <b>half the combined script-and-layout work</b>, measured in <code>bench/results.json</code>. Both inline their icons as data-URIs, so neither makes a separate icon request.</p>
+      <p>The difference that matters is under the hood. This library ships <b>zero JavaScript</b> — Bootstrap needs a script to drive the live states — and its whole stylesheet is <b class="wavy">≈97% smaller</b> than Bootstrap's CSS. Leaning on native CSS pseudo-classes is the whole trick, and also its one limit: it's why an input must carry a <b>placeholder</b> and a constraint to react. That's what keeps the interaction cheap: <b>no runtime JS at all</b> (Bootstrap spends ≈9 ms scripting per form) and about <b>half the combined script-and-layout work</b>, measured in <code>bench/results.json</code>. Both inline their icons as data-URIs, so neither makes a separate icon request.</p>
     </section>
 
     <section class="roadmap">
@@ -157,24 +167,5 @@
       </p>
     </footer>
   </div>
-
-  <script>
-    // One toggle themes the whole page. The native panes follow the stage's
-    // color-scheme via light-dark(); the Bootstrap iframe is told over postMessage
-    // so it can flip its own data-bs-theme.
-    function setTheme(mode) {
-      document.querySelector('.stage').dataset.bg = mode;
-      const f = document.getElementById('bs-frame');
-      if (f && f.contentWindow) f.contentWindow.postMessage({ theme: mode }, '*');
-    }
-    function toggleTheme() {
-      const cur = document.querySelector('.stage').dataset.bg;
-      setTheme(cur === 'dark' ? 'light' : 'dark');
-    }
-    // Sync the Bootstrap pane once it has loaded (covers the initial paint).
-    document.getElementById('bs-frame').addEventListener('load', function () {
-      this.contentWindow.postMessage({ theme: document.querySelector('.stage').dataset.bg }, '*');
-    });
-  </script>
 </body>
 </html>

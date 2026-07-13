@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap — comparison pane</title>
 
+  <!-- This document is only ever rendered inside index.html's iframe; on its own
+       it is two bare inputs. Kept crawlable (no robots.txt Disallow) so Googlebot
+       can still fetch it while rendering index.html — and so it can see this. -->
+  <meta name="robots" content="noindex">
+
   <!-- Belt-and-suspenders CSP for this frame (the parent also sandboxes it and
        _headers sets an HTTP-level CSP where the host supports it). Everything
        this frame needs is same-origin; the only non-'self' source is data:

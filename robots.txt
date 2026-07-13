@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
+Disallow: /bench/
+
 Sitemap: https://inputcolorfeedback.dev/sitemap.xml

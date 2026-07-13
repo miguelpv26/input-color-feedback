@@ -1,11 +1,3 @@
-# Security headers for inputcolorfeedback.dev (honoured by Cloudflare Pages /
-# Netlify; ignored harmlessly by GitHub Pages, where the in-page <meta> CSP and
-# the iframe sandbox still apply).
-#
-# frame-ancestors 'self' (not 'none') + X-Frame-Options: SAMEORIGIN are
-# deliberate: index.html embeds compare-bootstrap.html in a same-origin iframe,
-# which a DENY / 'none' policy would block. Cross-origin framing is still
-# refused. The page ships zero inline script/style, so no 'unsafe-inline'.
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self'; frame-src 'self'; connect-src 'none'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'; object-src 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'
   X-Content-Type-Options: nosniff
@@ -14,6 +6,19 @@
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
   Cross-Origin-Opener-Policy: same-origin
+
+# Keep the indexable surface to the one URL in sitemap.xml. These are an iframe
+# fragment and the benchmark fixtures — thin, chrome-less pages that would be
+# dead ends as search results. They stay crawlable on purpose: robots.txt must
+# not block them, or Googlebot could neither render index.html's iframe nor ever
+# see a noindex. compare-bootstrap.html repeats this as a <meta> so the rule
+# survives on hosts that ignore _headers; the fixtures don't, to keep the
+# benchmarked documents byte-for-byte what BENCHMARKS.md measured.
+/compare-bootstrap.html
+  X-Robots-Tag: noindex
+
+/bench/*
+  X-Robots-Tag: noindex
 
 # Vendored, versioned, immutable — safe to cache hard.
 /bootstrap-5.3.3.min.css
